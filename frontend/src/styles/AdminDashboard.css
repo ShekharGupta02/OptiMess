@@ -1,0 +1,23 @@
+.dashboard {
+  padding: 30px;
+  text-align: center;
+}
+
+.stats-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 220px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 10px rgba(0,0,0,0.2);
+  background-color: white;
+}
+
+.card h3 {
+  margin: 0;
+}
