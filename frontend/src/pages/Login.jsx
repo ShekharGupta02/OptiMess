@@ -1,18 +1,25 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import api from "../services/api";
 
 import "../styles/Login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
-
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    if (!email || !password) {
+      alert("Please fill all fields");
+      return;
+    }
+
     try {
+      setLoading(true);
+
       const res = await api.post("/auth/login", {
         email,
         password,
@@ -28,7 +35,12 @@ function Login() {
         navigate("/student");
       }
     } catch (error) {
-      alert("Login failed");
+      console.log("STATUS:", error.response?.status);
+      console.log("DATA:", error.response?.data);
+
+      alert(error.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,7 +62,14 @@ function Login() {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <button onClick={handleLogin}>Login</button>
+      <button onClick={handleLogin} disabled={loading}>
+        {loading ? "Logging in..." : "Login"}
+      </button>
+
+      <p>
+        Don't have an account?{" "}
+        <Link to="/register">Register</Link>
+      </p>
     </div>
   );
 }
